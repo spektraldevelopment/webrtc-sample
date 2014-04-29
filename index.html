@@ -19,14 +19,18 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <header id='mainHeader'>
+        <header id="mainHeader">
         	<h1>WebRTC Sample</h1>
         </header>
-        <content id='mainContent'></content>
-        <footer id='mainFooter'></footer>
+        <content id="mainContent">
+            <video id="localVideoElement"></video>
+            <video id="remoteVideoElement"></video>
+        </content>
+        <footer id="mainFooter"></footer>
 
         <script src="js/vendor/adapter.js"></script>
-        <script src="js/webrtc-sample.js"></script>
+        <script src="js/mediastream.js"></script>
+        <script src="js/peer.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>
