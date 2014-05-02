@@ -19,7 +19,7 @@ server.listen(port, function() {
   log("Server listening on port: " + port);
 });
 
-fs.readFile("index.html", function(error, data) {
+fs.readFile("../index.html", function(error, data) {
     if (error) {
         console.error("fs.readFile error: " + error);
     } else {
@@ -81,6 +81,15 @@ websocketServer.on("request", function(request) {
     } else {
         log("invalid signal: " + message.utf8Data);
     }
+
+    connection.on("close", function (connection) {
+        log("connection closed: " + connection.remoteAddress);
+        Object.keys(webrtcDiscussions).forEach(function(token) {
+            Object.keys(webrtcDiscussions[token]).forEach(function (id) {
+                delete webrtcDiscussions[token][id];
+            });
+        });
+    });
 
 });
 
