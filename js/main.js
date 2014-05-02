@@ -1,3 +1,4 @@
+var rtcSessionDescription = null;
 var stunServer = "stun.l.google.com:19302";
 
 if (document.location.hash === "" || document.location.hash === undefined) {
@@ -7,6 +8,6 @@ if (document.location.hash === "" || document.location.hash === undefined) {
 }
 
 function init() {
-	initMediaStream();
-	initPeerConnection();
+	var pc = initPeerConnection();
+    initMediaStream(pc);
 }

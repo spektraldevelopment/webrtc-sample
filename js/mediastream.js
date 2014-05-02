@@ -39,11 +39,12 @@ function onStream(stream) {
 		console.log("Stream ended.");
 	}
 
-	if (window.URL) {
-		localVideo.src = window.URL.createObjectURL(stream);
-	} else {
-		localVideo.src = stream;
-	}
+//	if (window.URL) {
+//		localVideo.src = window.URL.createObjectURL(stream);
+//	} else {
+//		localVideo.src = stream;
+//	}
+    connectStreamToSrc(stream, localVideo);
 
 	localVideo.onloadedmetadata = function() {
 		console.log('SpektralMedia: Meta Data Loaded');
@@ -51,8 +52,23 @@ function onStream(stream) {
 	localVideo.play();
 
 	mediaStream = stream;
+
+    peerConnection.addStream(mediaStream);
 }
+
+peerConnection.onaddstream = function (event) {
+    connectStreamToSrc(event.stream, remoteVideo);
+};
+
+function connectStreamToSrc (mStream, mElement) {
+  //mElement.src = window.URL.createObjectURL(mStream);
+    if (window.URL) {
+        mElement.src = window.URL.createObjectURL(mStream);
+    } else {
+        mElement.src = mStream;
+    }
+};
 
 function onStreamError(error) {
 	console.error('Stream error occurred: ' + error);
-}
+};
