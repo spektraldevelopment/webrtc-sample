@@ -5,19 +5,23 @@
 var
 	localVideo = document.querySelector('#localVideoElement'),
 	remoteVideo = document.querySelector('#remoteVideoElement'),
-	mediaStream;
+	mediaStream, peerConn;
 	
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
 
-function initMediaStream() {
+function initMediaStream(pc) {
 	navigator.getUserMedia({
 		video: true,
 		audio: false,
 	}, onStream, onStreamError);
+	peerConn = pc;
+	console.log("peerConn is: " + peerConn);
 }
 
 function onStream(stream) {
 	window.stream = stream;
+
+	console.log("peerConn is:  " + peerConn);
 
 	stream.oninactive = function() {
 		console.warn("No camera available!");
@@ -53,12 +57,15 @@ function onStream(stream) {
 
 	mediaStream = stream;
 
-    peerConnection.addStream(mediaStream);
-}
+    peerConn.addStream(mediaStream);
 
-peerConnection.onaddstream = function (event) {
-    connectStreamToSrc(event.stream, remoteVideo);
-};
+    peerConn.onaddstream = function (event) {
+    	connectStreamToSrc(event.stream, remoteVideo);
+
+    	document.getElementById("loadingState").style.display = "none";
+    	document.getElementById("openCallState").style.display = "block";
+	} 
+}
 
 function connectStreamToSrc (mStream, mElement) {
   //mElement.src = window.URL.createObjectURL(mStream);
